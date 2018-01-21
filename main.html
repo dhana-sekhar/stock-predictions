@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- META SECTION -->
+    <title>Stock Prediction</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="icon" href="a.ico" type="image/x-icon" />
+    <!-- END META SECTION -->
+
+    <!-- CSS INCLUDE -->
+    <link rel="stylesheet" type="text/css" id="theme" href="css/theme-default.css" />
+    <!-- EOF CSS INCLUDE -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+<script>
+window.onload = function () {
+
+var chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	theme: "light2",
+	title: {
+		text: "Monthly Stocks Data of Amazon"
+	},
+	axisX: {
+		valueFormatString: "MMM"
+	},
+	axisY: {
+		prefix: "$",
+		labelFormatter: addSymbols
+	},
+	toolTip: {
+		shared: true
+	},
+	legend: {
+		cursor: "pointer",
+		itemclick: toggleDataSeries
+	},
+	data: [
+	{
+		type: "column",
+		name: "Actual Sales",
+		showInLegend: true,
+		xValueFormatString: "MMMM YYYY",
+		yValueFormatString: "$#,##0",
+		dataPoints: [
+			{ x: new Date(2017, 0), y: 20000 },
+			{ x: new Date(2017, 1), y: 30000 },
+			{ x: new Date(2017, 2), y: 25000 },
+			{ x: new Date(2017, 3), y: 70000, indexLabel: "High Renewals" },
+			{ x: new Date(2017, 4), y: 50000 },
+			{ x: new Date(2017, 5), y: 35000 },
+			{ x: new Date(2017, 6), y: 30000 },
+			{ x: new Date(2017, 7), y: 43000 },
+			{ x: new Date(2017, 8), y: 35000 },
+			{ x: new Date(2017, 9), y:  30000},
+			{ x: new Date(2017, 10), y: 40000 },
+			{ x: new Date(2017, 11), y: 50000 }
+		]
+	}, 
+	{
+		type: "line",
+		name: "Expected Sales",
+		showInLegend: true,
+		yValueFormatString: "$#,##0",
+		dataPoints: [
+			{ x: new Date(2017, 0), y: 40000 },
+			{ x: new Date(2017, 1), y: 42000 },
+			{ x: new Date(2017, 2), y: 45000 },
+			{ x: new Date(2017, 3), y: 45000 },
+			{ x: new Date(2017, 4), y: 47000 },
+			{ x: new Date(2017, 5), y: 43000 },
+			{ x: new Date(2017, 6), y: 42000 },
+			{ x: new Date(2017, 7), y: 43000 },
+			{ x: new Date(2017, 8), y: 41000 },
+			{ x: new Date(2017, 9), y: 45000 },
+			{ x: new Date(2017, 10), y: 42000 },
+			{ x: new Date(2017, 11), y: 50000 }
+		]
+	},
+	{
+		type: "area",
+		name: "Profit",
+		markerBorderColor: "white",
+		markerBorderThickness: 2,
+		showInLegend: true,
+		yValueFormatString: "$#,##0",
+		dataPoints: [
+			{ x: new Date(2017, 0), y: 5000 },
+			{ x: new Date(2017, 1), y: 7000 },
+			{ x: new Date(2017, 2), y: 6000},
+			{ x: new Date(2017, 3), y: 30000 },
+			{ x: new Date(2017, 4), y: 20000 },
+			{ x: new Date(2017, 5), y: 15000 },
+			{ x: new Date(2017, 6), y: 13000 },
+			{ x: new Date(2017, 7), y: 20000 },
+			{ x: new Date(2017, 8), y: 15000 },
+			{ x: new Date(2017, 9), y:  10000},
+			{ x: new Date(2017, 10), y: 19000 },
+			{ x: new Date(2017, 11), y: 22000 }
+		]
+	}]
+});
+chart.render();
+
+function addSymbols(e) {
+	var suffixes = ["", "K", "M", "B"];
+	var order = Math.max(Math.floor(Math.log(e.value) / Math.log(1000)), 0);
+
+	if(order > suffixes.length - 1)                	
+		order = suffixes.length - 1;
+
+	var suffix = suffixes[order];      
+	return CanvasJS.formatNumber(e.value / Math.pow(1000, order)) + suffix;
+}
+
+function toggleDataSeries(e) {
+	if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+		e.dataSeries.visible = false;
+	} else {
+		e.dataSeries.visible = true;
+	}
+	e.chart.render();
+}
+
+}
+</script>
+
+<style type="text/css">
+
+.topnav
+{
+
+   overflow:hidden;
+   background-color:#263238;
+}
+.topnav a
+{
+    float:left;
+    display:block;
+    color:#f2f2f2;
+    text-align:center;
+    padding:14px 36px;
+    text-decoration:none;
+    font-size:17px;
+	font-family: sans-serif;
+}
+.topnav a:hover
+{
+    background-color:#1abc9c;
+    color:white;
+}
+.topnav a.active
+{
+  background-color:#4CAF50;
+  color:white;
+}
+a.sansserif {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+textarea{
+   background-color:transparent;
+   color:black;
+   outline:none;
+   font-family:sans-serif;
+   font-size:20px;
+}
+
+
+    .canvasjs-chart-credit {
+   display: none;
+}
+
+
+    .button {
+          border-radius: 4px;
+          background-color: #3949AB;
+          border: none;
+          color: #FFFFFF;
+          text-align: center;
+          font-size: 18px;
+          padding: 8px;
+          width:130px;
+          transition: all 0.5s;
+          cursor: pointer;
+          margin: 5px;
+        }
+
+        .button span {
+          cursor: pointer;
+          display: inline-block;
+          position: relative;
+          transition: 0.5s;
+        }
+
+        .button span:after {
+          content: '\00bb';
+          position: absolute;
+          opacity: 0;
+          top: 0;
+          right: -20px;
+          transition: 0.5s;
+        }
+
+        .button:hover span {
+          padding-right: 25px;
+        }
+
+        .button:hover span:after {
+          opacity: 1;
+          right: 0;
+        }
+        .image_logo {
+            width: 100%;
+            height: 11%;
+            background: #232527 ;
+        }
+        .image_logo_pos {
+            margin-top: 0.5%;
+            margin-left:1%;
+        }
+		.carousel-inner>.item>img, .carousel-inner>.item>a>img {
+display: block;
+height: auto;
+max-width: 100%;
+line-height: 1;
+width: 100%;
+}
+div.cont{
+    width:1100px;
+    margin: auto;
+	font-size:20px;
+	float:left;
+    font-family: 'Lato',sans-serif;
+    
+}
+        div.contt{
+    width:1100px;
+    margin: auto;
+	font-size:20px;
+	float:left;
+    font-family: 'Lato',sans-serif;
+    
+}
+</style>
+</head>
+<body ng-app="myApp">
+    <!-- START PAGE CONTAINER -->
+    <div class="page-container">
+
+        <!-- START PAGE SIDEBAR -->
+        <div class="page-sidebar">
+            <!-- START X-NAVIGATION -->
+            <ul class="x-navigation">
+                <li class="xn-logo">
+
+                    <a href="#" class="x-navigation-control"></a>
+                </li>
+                <li class="xn-profile">
+                    <a href="#" class="profile-mini">
+                         <img src="images/mss.png" alt="Essay" />
+                    </a>
+                    <div class="profile">
+                        <div class="profile-image">
+                             <img src="images/mss.png" alt="Essay" />
+                        </div>
+
+                    </div>
+                </li>
+
+                <li class="active">
+                    <a href="apple.html"><span class="fa fa-desktop"></span> <span class="xn-text">apple</span></a>
+                </li>
+				<li>
+                    <a href="microsoft.html"><span class="fa fa-globe"></span> <span class="xn-text">Microsoft</span></a>
+                </li>
+				<li>
+                    <a href="google.html"><span class="fa fa-language"></span> <span class="xn-text">Google</span></a>
+                </li>
+				<li>
+                    <a href="amazon.html"><span class="fa fa-smile-o"></span> <span class="xn-text">Amazon</span></a>
+                </li>
+                <li >
+                    <a href="ibm.html"><span class="fa fa-files-o"></span> <span class="xn-text">IBM</span></a>
+                   
+				</li>
+            <!-- END X-NAVIGATION -->
+        </div>
+        <!-- END PAGE SIDEBAR -->
+
+        <!-- PAGE CONTENT -->
+     <div class="page-content">
+
+            <!-- START X-NAVIGATION VERTICAL -->
+            <ul class="x-navigation x-navigation-horizontal x-navigation-panel">
+                <!-- TOGGLE NAVIGATION -->
+                <li class="xn-icon-button">
+                    <a href="#" class="x-navigation-minimize"><span class="fa fa-dedent"></span></a>
+                </li>
+                <!-- END TOGGLE NAVIGATION -->
+                <!-- SIGN OUT -->
+                <li class="xn-icon-button pull-right">
+                    <a href="#" class="mb-control" data-box="#mb-signout"><span class="fa fa-sign-out"></span></a>
+                </li>
+                <!-- END SIGN OUT -->
+
+
+            </ul>
+            <!-- END X-NAVIGATION VERTICAL -->
+
+            <!-- START BREADCRUMB -->
+            <!--<ul class="breadcrumb">
+                <li><a href="#/index.html">Home</a></li>
+                <li class="active">essay</li>
+                <li class="active">Watson services</li>
+			</ul>-->
+            <!-- END BREADCRUMB -->
+
+          <!-- START CONTENT FRAME -->
+            <div class="content-frame">
+
+                <!-- START CONTENT FRAME TOP -->
+                <div class="content-frame-top">
+                    <div id="chartContainer" style="height: 620px; width: 100%; align:center-left;">
+                        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+                     </div>
+
+                </div>
+
+
+
+                <!-- START CONTENT FRAME BODY -->
+                <div class="content-frame-body content-frame-body-left">
+
+
+<!--
+
+                    <div class="gallery" id="links">
+                        <form>
+<div >
+    <marquee width=1200><font color="#2368a0"><h1>IBM SERVICES</h1></font></marquee>
+    
+
+  <div id="myCarousel" class="carousel slide" data-interval="1800" style="width:1150px; height:550px;" data-ride="carousel" >
+  <!-- Indicators 
+  <ol class="carousel-indicators">
+    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#myCarousel" data-slide-to="1"></li>
+    <li data-target="#myCarousel" data-slide-to="2"></li>
+    <li data-target="#myCarousel" data-slide-to="3"></li>--->
+	 
+  </ol>
+
+  <!-- Wrapper for slides 
+  <div class="carousel-inner" >
+    <div class="item active">
+     <img class="img-responsive center-block" src="scroll/bluemix1.png" alt="Los Angeles">
+    </div>
+	 <div class="item ">
+      <img class="img-responsive center-block" src="scroll/bluemix4.png" alt="Los Angeles">
+    </div>
+
+    <div class="item">
+      <img class="img-responsive center-block" src="scroll/bluemix2.jpg" alt="Los Angeles">
+    </div>
+
+    <div class="item">
+      <img class="img-responsive center-block" src="scroll/bluemix3.png" alt="Los Angeles">
+    </div>
+
+  </div>
+
+  <!-- Left and right controls 
+  <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="right carousel-control" href="#myCarousel" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+<br>
+    <br>
+    
+      <div class=cont align="justify">
+ <p class="big">
+
+   <strong> <h3>BLUEMIX</h3></strong>
+
+   IBM Bluemix is a cloud platform as a service (PaaS) developed by IBM. It supports several programming languages and services as well as integrated DevOps to build, run, deploy and manage applications on the cloud. Bluemix is based on Cloud Foundry open technology and runs on SoftLayer infrastructure. Bluemix supports several programming languages including Java, Node.js, Go, PHP, Swift, Python, Ruby Sinatra, Ruby on Rails and can be extended to support other languages such as Scala through the use of buildpacks.
+
+    It took a team of people located in different places only 18 months to build Bluemix from initial concept to public availability. It was announced as a public beta in February 2014 and generally available in June.
+	IBM Bluemix includes IBM's Function as a Service (FaaS) system, or Serverless computing offering, that is built using open source from the Apache OpenWhisk incubator project largely credited to IBM for seeding. This system, equivalent to Amazon Lambda or Google Cloud Functions, allows calling of a specific function in response to an event without requiring any resource management from the developer.
+    </p>
+    </div>
+<br>
+		<marquee width=1200><h1>Cloud Technology</h1></marquee>
+<div class=cloud>
+<img src="images/cloud.gif"  height=500 width=1200 align="middle"/>
+</div>
+    <br><br><br>
+<h3><strong>Bringing the cloud together</strong></h3>
+<div class=contt align="justify">
+<p>Cloud resources make it possible to bring together multiple data sources, scale systems, and incorporate cognitive services to drive business value quickly and inexpensively. Integrate high-performance cloud infrastructure and cutting-edge services into your IT environment with the IBM Bluemix cloud platform.
+</p>
+                            </div>
+
+						</form>
+
+                    <ng-view>
+                      </ng-view>
+
+                    </div>
+
+
+                </div>
+                <!-- END CONTENT FRAME BODY -->
+            </div>
+            <!-- END CONTENT FRAME -->
+
+
+
+        </div>
+        <!-- END PAGE CONTENT -->
+    </div> 
+    <!-- END PAGE CONTAINER -->
+
+    <!-- MESSAGE BOX-->
+    <div class="message-box animated fadeIn" data-sound="alert" id="mb-signout">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-sign-out"></span> Log <strong>Out</strong> ?</div>
+                <div class="mb-content">
+                    <p>Are you sure you want to log out?</p>
+                    <p>Press No if youwant to continue work. Press Yes to logout current user.</p>
+                </div>
+                <div class="mb-footer">
+                    <div class="pull-right">
+                        <a href="/logout" class="btn btn-success btn-lg">Yes</a>
+                        <button class="btn btn-default btn-lg mb-control-close">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END MESSAGE BOX-->
+
+    <!-- START PRELOADS -->
+    <audio id="audio-alert" src="audio/alert.mp3" preload="auto"></audio>
+    <audio id="audio-fail" src="audio/fail.mp3" preload="auto"></audio>
+    <!-- END PRELOADS -->
+
+    <!-- START SCRIPTS -->
+    <!-- START PLUGINS -->
+    <script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="js/plugins/jquery/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="js/plugins/bootstrap/bootstrap.min.js"></script>
+    <!-- END PLUGINS -->
+
+    <!-- START THIS PAGE PLUGINS-->
+    <script type='text/javascript' src='js/plugins/icheck/icheck.min.js'></script>
+    <script type="text/javascript" src="js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"></script>
+    <script type="text/javascript" src="js/plugins/scrolltotop/scrolltopcontrol.js"></script>
+
+
+    <script type="text/javascript" src="js/plugins/rickshaw/d3.v3.js"></script>
+    <script type="text/javascript" src="js/plugins/rickshaw/rickshaw.min.js"></script>
+    <script type='text/javascript' src='js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js'></script>
+    <script type='text/javascript' src='js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js'></script>
+    <script type='text/javascript' src='js/plugins/bootstrap/bootstrap-datepicker.js'></script>
+    <script type="text/javascript" src="js/plugins/owl/owl.carousel.min.js"></script>
+
+    <script type="text/javascript" src="js/plugins/moment.min.js"></script>
+    <script type="text/javascript" src="js/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- END THIS PAGE PLUGINS-->
+
+    <!-- START TEMPLATE -->
+  <!--  <script type="text/javascript" src="js/settings.js"></script>        -->
+
+    <script type="text/javascript" src="js/plugins.js"></script>
+    <script type="text/javascript" src="js/actions.js"></script>
+
+
+    <!-- END TEMPLATE -->
+    <!-- END SCRIPTS -->
+
+
+    <script src="routing.js"></script>
+    <script src="emotionctrl.js"></script>
+    <script src="categoriesctrl.js"></script>
+    <script src="conceptsctrl.js"></script>
+    <script src="sentimentctrl.js"></script>
+    <script src="tonectrl.js"></script>
+    <script src="canvasjs.min.js"></script>
+
+    </body>
+
+</html>
